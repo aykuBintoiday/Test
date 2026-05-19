@@ -1,0 +1,126 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Thêm sinh viên</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #eef2f7;
+        margin: 0;
+        padding: 40px;
+      }
+
+      .form-box {
+        width: 550px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      }
+
+      h2 {
+        text-align: center;
+        color: #1f2937;
+      }
+
+      label {
+        font-weight: bold;
+        color: #374151;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 9px;
+        margin-top: 6px;
+        margin-bottom: 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+      }
+
+      button {
+        width: 100%;
+        background: #16a34a;
+        color: white;
+        padding: 11px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #15803d;
+      }
+
+      .back {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #2563eb;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-box">
+      <h2>Thêm sinh viên tốt nghiệp</h2>
+
+      <form action="/luu" method="post">
+        <label>Số CMND:</label>
+        <input type="text" name="soCMND" required />
+
+        <label>Họ tên:</label>
+        <input type="text" name="hoTen" required />
+
+        <label>Email:</label>
+        <input type="email" name="email" />
+
+        <label>Số điện thoại:</label>
+        <input type="text" name="soDT" />
+
+        <label>Địa chỉ:</label>
+        <input type="text" name="diaChi" />
+
+        <label>Trường:</label>
+
+        <select name="maTruong" required>
+          <option value="">-- Chọn trường --</option>
+
+          <option
+            th:each="t : ${truongs}"
+            th:value="${t.maTruong}"
+            th:text="${t.tenTruong}"
+          ></option>
+        </select>
+
+        <label>Ngành:</label>
+
+        <select name="maNganh" required>
+          <option value="">-- Chọn ngành --</option>
+
+          <option
+            th:each="n : ${nganhs}"
+            th:value="${n.maNganh}"
+            th:text="${n.tenNganh}"
+          ></option>
+        </select>
+
+        <label>Hệ tốt nghiệp:</label>
+        <input type="text" name="heTN" />
+
+        <label>Ngày tốt nghiệp:</label>
+        <input type="date" name="ngayTN" required />
+
+        <label>Loại tốt nghiệp:</label>
+        <input type="text" name="loaiTN" />
+
+        <button type="submit">Lưu thông tin</button>
+      </form>
+
+      <a href="/" class="back"> ← Quay lại danh sách </a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sửa sinh viên</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #eef2f7;
+        margin: 0;
+        padding: 40px;
+      }
+
+      .form-box {
+        width: 550px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      }
+
+      h2 {
+        text-align: center;
+        color: #1f2937;
+      }
+
+      label {
+        font-weight: bold;
+        color: #374151;
+      }
+
+      input {
+        width: 100%;
+        padding: 9px;
+        margin-top: 6px;
+        margin-bottom: 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+      }
+
+      button {
+        width: 100%;
+        background: #2563eb;
+        color: white;
+        padding: 11px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #1d4ed8;
+      }
+
+      .back {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #2563eb;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-box">
+      <h2>Sửa thông tin sinh viên</h2>
+
+      <form action="/capnhat" method="post">
+        <label>Số CMND:</label>
+
+        <input
+          type="text"
+          name="soCMND"
+          th:value="${sinhVien.soCMND}"
+          readonly
+        />
+
+        <label>Họ tên:</label>
+
+        <input type="text" name="hoTen" th:value="${sinhVien.hoTen}" required />
+
+        <label>Email:</label>
+
+        <input type="email" name="email" th:value="${sinhVien.email}" />
+
+        <label>Số điện thoại:</label>
+
+        <input type="text" name="soDT" th:value="${sinhVien.soDT}" />
+
+        <label>Địa chỉ:</label>
+
+        <input type="text" name="diaChi" th:value="${sinhVien.diaChi}" />
+
+        <button type="submit">Cập nhật</button>
+      </form>
+
+      <a href="/" class="back"> ← Quay lại danh sách </a>
+    </div>
+  </body>
+</html>

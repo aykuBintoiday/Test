@@ -1,104 +1,116 @@
 package com.example.quanlisinhvien.controller;
 
-import java.util.Optional;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.example.quanlisinhvien.dto.SinhVienForm;
 import com.example.quanlisinhvien.model.SinhVien;
-import com.example.quanlisinhvien.model.Totnghiep;
 import com.example.quanlisinhvien.repository.NganhRepository;
+import com.example.quanlisinhvien.repository.TruongRepository;
+import com.example.quanlisinhvien.service.SinhVienService;
 import com.example.quanlisinhvien.repository.SinhVienRepository;
 import com.example.quanlisinhvien.repository.TotnghiepRepository;
-import com.example.quanlisinhvien.repository.TruongRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class SinhVienController {
 
-    @Autowired
-    private TruongRepository truongRepository;
+    private final SinhVienService sinhVienService;
+    private final TruongRepository truongRepository;
+    private final NganhRepository nganhRepository;
+    private final SinhVienRepository sinhVienRepository;
+    private final TotnghiepRepository totnghiepRepository;
 
-    @Autowired
-    private NganhRepository nganhRepository;
-
-    @Autowired
-    private SinhVienRepository sinhVienRepository;
-
-    @Autowired
-    private TotnghiepRepository totnghiepRepository;
+    public SinhVienController(SinhVienService sinhVienService,
+                              TruongRepository truongRepository,
+                              NganhRepository nganhRepository,
+                              SinhVienRepository sinhVienRepository,
+                              TotnghiepRepository totnghiepRepository) {
+        this.sinhVienService = sinhVienService;
+        this.truongRepository = truongRepository;
+        this.nganhRepository = nganhRepository;
+        this.sinhVienRepository = sinhVienRepository;
+        this.totnghiepRepository = totnghiepRepository;
+    }
 
     @GetMapping("/")
     public String danhSach(Model model) {
-        model.addAttribute("sinhviens", sinhVienRepository.findAll());
+        model.addAttribute("sinhviens", sinhVienService.findAll());
         return "danhsach";
     }
 
     @GetMapping("/them")
     public String showForm(Model model) {
+        model.addAttribute("sinhVienForm", new SinhVienForm());
         model.addAttribute("truongs", truongRepository.findAll());
         model.addAttribute("nganhs", nganhRepository.findAll());
         return "form-sinhvien";
     }
 
     @PostMapping("/luu")
-    public String saveForm(@RequestParam String soCMND,
-                           @RequestParam String hoTen,
-                           @RequestParam String email,
-                           @RequestParam String soDT,
-                           @RequestParam String diaChi,
-                           @RequestParam String maTruong,
-                           @RequestParam String maNganh,
-                           @RequestParam String heTN,
-                           @RequestParam String ngayTN,
-                           @RequestParam String loaiTN) {
+    public String saveForm(@Valid @ModelAttribute("sinhVienForm") SinhVienForm form,
+                           BindingResult result,
+                           Model model) {
 
-        SinhVien sinhVien = new SinhVien(soCMND, hoTen, email, soDT, diaChi);
-        sinhVienRepository.save(sinhVien);
+        if (result.hasErrors()) {
+            model.addAttribute("truongs", truongRepository.findAll());
+            model.addAttribute("nganhs", nganhRepository.findAll());
+            return "form-sinhvien";
+        }
 
-        Totnghiep totnghiep = new Totnghiep(soCMND, maTruong, maNganh, heTN, ngayTN, loaiTN);
-        totnghiepRepository.save(totnghiep);
-
+        sinhVienService.save(form);
         return "redirect:/";
     }
 
     @GetMapping("/sua/{soCMND}")
-public String showEditForm(@PathVariable String soCMND, Model model) {
-    Optional<SinhVien> sinhVienOptional = sinhVienRepository.findById(soCMND);
+    public String showEditForm(@PathVariable String soCMND, Model model) {
+        SinhVien sinhVien = sinhVienService.findById(soCMND).orElse(null);
 
-    if (sinhVienOptional.isEmpty()) {
+        if (sinhVien == null) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("sinhVien", sinhVien);
+        return "sua-sinhvien";
+    }
+
+    @PostMapping("/capnhat/{soCMND}")
+    public String updateStudent(@PathVariable String soCMND,
+                                @ModelAttribute SinhVien sinhVien) {
+        sinhVienService.update(soCMND, sinhVien);
         return "redirect:/";
     }
 
-    model.addAttribute("sinhVien", sinhVienOptional.get());
-    model.addAttribute("truongs", truongRepository.findAll());
-    model.addAttribute("nganhs", nganhRepository.findAll());
+    @GetMapping("/xoa/{soCMND}")
+    public String deleteStudent(@PathVariable String soCMND) {
+        sinhVienService.delete(soCMND);
+        return "redirect:/";
+    }
 
-    return "sua-sinhvien";
+    @GetMapping("/timkiem-coban")
+public String showSearchBasic() {
+    return "timkiem-coban";
 }
 
-@PostMapping("/capnhat")
-public String updateStudent(@RequestParam String soCMND,
-                            @RequestParam String hoTen,
-                            @RequestParam String email,
-                            @RequestParam String soDT,
-                            @RequestParam String diaChi) {
-
-    SinhVien sinhVien = new SinhVien(soCMND, hoTen, email, soDT, diaChi);
-    sinhVienRepository.save(sinhVien);
-
-    return "redirect:/";
+@GetMapping("/timkiem-coban/ketqua")
+public String searchBasic(@RequestParam String keyword, Model model) {
+    model.addAttribute("keyword", keyword);
+    model.addAttribute("results", sinhVienRepository.searchBasic(keyword));
+    return "timkiem-coban";
 }
 
-@GetMapping("/xoa/{soCMND}")
-public String deleteStudent(@PathVariable String soCMND) {
-    totnghiepRepository.deleteBySoCMND(soCMND);
-    sinhVienRepository.deleteById(soCMND);
-
-    return "redirect:/";
+@GetMapping("/timkiem-totnghiep-vieclam")
+public String showSearchGraduationAndJob() {
+    return "timkiem-totnghiep-vieclam";
 }
 
+@GetMapping("/timkiem-totnghiep-vieclam/ketqua")
+public String searchGraduationAndJob(@RequestParam String keyword, Model model) {
+    model.addAttribute("keyword", keyword);
+    model.addAttribute("results", totnghiepRepository.searchGraduationAndJob(keyword));
+    return "timkiem-totnghiep-vieclam";
+}
 }

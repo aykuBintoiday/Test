@@ -38,6 +38,12 @@
         margin-bottom: 14px;
         border: 1px solid #cbd5e1;
         border-radius: 6px;
+        box-sizing: border-box;
+      }
+
+      input[readonly] {
+        background: #f3f4f6;
+        cursor: not-allowed;
       }
 
       button {
@@ -67,9 +73,8 @@
     <div class="form-box">
       <h2>Sửa thông tin sinh viên</h2>
 
-      <form action="/capnhat" method="post">
+      <form th:action="@{'/capnhat/' + ${sinhVien.soCMND}}" method="post">
         <label>Số CMND:</label>
-
         <input
           type="text"
           name="soCMND"
@@ -78,19 +83,15 @@
         />
 
         <label>Họ tên:</label>
-
         <input type="text" name="hoTen" th:value="${sinhVien.hoTen}" required />
 
         <label>Email:</label>
-
         <input type="email" name="email" th:value="${sinhVien.email}" />
 
         <label>Số điện thoại:</label>
-
         <input type="text" name="soDT" th:value="${sinhVien.soDT}" />
 
         <label>Địa chỉ:</label>
-
         <input type="text" name="diaChi" th:value="${sinhVien.diaChi}" />
 
         <button type="submit">Cập nhật</button>

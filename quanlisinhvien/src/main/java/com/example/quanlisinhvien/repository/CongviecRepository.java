@@ -1,8 +1,8 @@
 package com.example.quanlisinhvien.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.quanlisinhvien.model.Congviec;
-import com.example.quanlisinhvien.model.CongviecID;
+import com.example.quanlisinhvien.model.CongViec;
+import com.example.quanlisinhvien.model.CongViecID;
 
-public interface CongviecRepository extends JpaRepository<Congviec, CongviecID> {
+public interface CongviecRepository extends JpaRepository<CongViec, CongViecID> {
 }

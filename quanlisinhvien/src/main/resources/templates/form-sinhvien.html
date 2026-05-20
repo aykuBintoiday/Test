@@ -36,9 +36,20 @@
         width: 100%;
         padding: 9px;
         margin-top: 6px;
-        margin-bottom: 14px;
+        margin-bottom: 6px;
         border: 1px solid #cbd5e1;
         border-radius: 6px;
+        box-sizing: border-box;
+      }
+
+      .field {
+        margin-bottom: 12px;
+      }
+
+      .error {
+        color: #dc2626;
+        font-size: 14px;
+        margin-bottom: 8px;
       }
 
       button {
@@ -49,6 +60,7 @@
         border: none;
         border-radius: 6px;
         font-size: 16px;
+        margin-top: 8px;
       }
 
       button:hover {
@@ -68,54 +80,90 @@
     <div class="form-box">
       <h2>Thêm sinh viên tốt nghiệp</h2>
 
-      <form action="/luu" method="post">
-        <label>Số CMND:</label>
-        <input type="text" name="soCMND" required />
+      <form action="/luu" method="post" th:object="${sinhVienForm}">
+        <div class="field">
+          <label>Số CMND:</label>
+          <input type="text" th:field="*{soCMND}" />
+          <div
+            class="error"
+            th:if="${#fields.hasErrors('soCMND')}"
+            th:errors="*{soCMND}"
+          ></div>
+        </div>
 
-        <label>Họ tên:</label>
-        <input type="text" name="hoTen" required />
+        <div class="field">
+          <label>Họ tên:</label>
+          <input type="text" th:field="*{hoTen}" />
+        </div>
 
-        <label>Email:</label>
-        <input type="email" name="email" />
+        <div class="field">
+          <label>Email:</label>
+          <input type="email" th:field="*{email}" />
+        </div>
 
-        <label>Số điện thoại:</label>
-        <input type="text" name="soDT" />
+        <div class="field">
+          <label>Số điện thoại:</label>
+          <input type="text" th:field="*{soDT}" />
+        </div>
 
-        <label>Địa chỉ:</label>
-        <input type="text" name="diaChi" />
+        <div class="field">
+          <label>Địa chỉ:</label>
+          <input type="text" th:field="*{diaChi}" />
+        </div>
 
-        <label>Trường:</label>
+        <div class="field">
+          <label>Trường:</label>
+          <select th:field="*{maTruong}">
+            <option value="">-- Chọn trường --</option>
+            <option
+              th:each="t : ${truongs}"
+              th:value="${t.maTruong}"
+              th:text="${t.tenTruong}"
+            ></option>
+          </select>
+          <div
+            class="error"
+            th:if="${#fields.hasErrors('maTruong')}"
+            th:errors="*{maTruong}"
+          ></div>
+        </div>
 
-        <select name="maTruong" required>
-          <option value="">-- Chọn trường --</option>
+        <div class="field">
+          <label>Ngành:</label>
+          <select th:field="*{maNganh}">
+            <option value="">-- Chọn ngành --</option>
+            <option
+              th:each="n : ${nganhs}"
+              th:value="${n.maNganh}"
+              th:text="${n.tenNganh}"
+            ></option>
+          </select>
+          <div
+            class="error"
+            th:if="${#fields.hasErrors('maNganh')}"
+            th:errors="*{maNganh}"
+          ></div>
+        </div>
 
-          <option
-            th:each="t : ${truongs}"
-            th:value="${t.maTruong}"
-            th:text="${t.tenTruong}"
-          ></option>
-        </select>
+        <div class="field">
+          <label>Hệ tốt nghiệp:</label>
+          <input type="text" th:field="*{heTN}" />
+        </div>
 
-        <label>Ngành:</label>
+        <div class="field">
+          <label>Ngày tốt nghiệp:</label>
+          <input type="date" th:field="*{ngayTN}" />
+          <div
+            class="error"
+            th:if="${#fields.hasErrors('ngayTN')}"
+            th:errors="*{ngayTN}"
+          ></div>
+        </div>
 
-        <select name="maNganh" required>
-          <option value="">-- Chọn ngành --</option>
-
-          <option
-            th:each="n : ${nganhs}"
-            th:value="${n.maNganh}"
-            th:text="${n.tenNganh}"
-          ></option>
-        </select>
-
-        <label>Hệ tốt nghiệp:</label>
-        <input type="text" name="heTN" />
-
-        <label>Ngày tốt nghiệp:</label>
-        <input type="date" name="ngayTN" required />
-
-        <label>Loại tốt nghiệp:</label>
-        <input type="text" name="loaiTN" />
+        <div class="field">
+          <label>Loại tốt nghiệp:</label>
+          <input type="text" th:field="*{loaiTN}" />
+        </div>
 
         <button type="submit">Lưu thông tin</button>
       </form>

@@ -3,13 +3,13 @@ package com.example.quanlisinhvien.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class CongviecID implements Serializable {
+public class CongViecID implements Serializable {
     private String soCMND;
     private String ngayVaoCongTy;
 
-    public CongviecID(){}
+    public CongViecID(){}
 
-    public CongviecID(String soCMND, String ngayVaoCongTy) {
+    public CongViecID(String soCMND, String ngayVaoCongTy) {
         this.soCMND = soCMND;
         this.ngayVaoCongTy = ngayVaoCongTy;
     }
@@ -17,8 +17,8 @@ public class CongviecID implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CongviecID)) return false;
-        CongviecID that = (CongviecID) o;
+        if (!(o instanceof CongViecID)) return false;
+        CongViecID that = (CongViecID) o;
         return Objects.equals(soCMND, that.soCMND)
                 && Objects.equals(ngayVaoCongTy, that.ngayVaoCongTy);
     }

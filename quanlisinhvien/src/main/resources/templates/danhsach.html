@@ -85,6 +85,12 @@
       .btn-delete:hover {
         background: #b91c1c;
       }
+
+      .empty {
+        text-align: center;
+        color: #6b7280;
+        padding: 20px;
+      }
     </style>
   </head>
   <body>
@@ -92,6 +98,10 @@
       <h2>Danh sách sinh viên</h2>
 
       <a href="/them" class="btn-add"> + Thêm sinh viên tốt nghiệp </a>
+      <a href="/timkiem-coban" class="btn-add">Tìm kiếm cơ bản</a>
+      <a href="/timkiem-totnghiep-vieclam" class="btn-add"
+        >Tìm kiếm tốt nghiệp & việc làm</a
+      >
 
       <table>
         <tr>
@@ -101,6 +111,10 @@
           <th>Số điện thoại</th>
           <th>Địa chỉ</th>
           <th>Thao tác</th>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(sinhviens)}">
+          <td colspan="6" class="empty">Chưa có dữ liệu sinh viên.</td>
         </tr>
 
         <tr th:each="sv : ${sinhviens}">

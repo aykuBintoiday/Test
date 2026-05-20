@@ -8,9 +8,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CONG_VIEC")
-@IdClass(CongviecID.class)
+@IdClass(CongViecID.class)
 
-public class Congviec {
+public class CongViec {
     @Id
     @Column(name = "SoCMND")
     private String soCMND;
@@ -34,9 +34,9 @@ public class Congviec {
     @Column(name = "ThoiGianLamViec")
     private String thoiGianLamViec;
 
-    public Congviec(){}
+    public CongViec(){}
     
-    public Congviec(String soCMND,
+    public CongViec(String soCMND,
                     String ngayVaoCongTy,
                     String maNganh,
                     String tenCongViec,

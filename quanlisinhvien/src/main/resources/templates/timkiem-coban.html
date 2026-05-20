@@ -1,0 +1,136 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tìm kiếm sinh viên</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #e0f2fe, #f8fafc);
+        margin: 0;
+        padding: 40px;
+      }
+
+      .container {
+        max-width: 1050px;
+        margin: auto;
+        background: white;
+        padding: 28px;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      }
+
+      h2 {
+        text-align: center;
+        color: #1e3a8a;
+        margin-bottom: 25px;
+      }
+
+      .search-box {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+      }
+
+      input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 15px;
+      }
+
+      button {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 12px 22px;
+        border-radius: 8px;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #1d4ed8;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 10px;
+      }
+
+      th {
+        background: #2563eb;
+        color: white;
+        padding: 13px;
+      }
+
+      td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      tr:hover {
+        background: #eff6ff;
+      }
+
+      .back {
+        display: inline-block;
+        margin-top: 20px;
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .empty {
+        text-align: center;
+        color: #64748b;
+        padding: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Tìm kiếm thông tin cơ bản sinh viên</h2>
+
+      <form action="/timkiem-coban/ketqua" method="get" class="search-box">
+        <input
+          type="text"
+          name="keyword"
+          th:value="${keyword}"
+          placeholder="Nhập CMND, họ tên, email, số điện thoại, địa chỉ..."
+          required
+        />
+        <button type="submit">Tìm kiếm</button>
+      </form>
+
+      <table>
+        <tr>
+          <th>SoCMND</th>
+          <th>Họ tên</th>
+          <th>Email</th>
+          <th>Số ĐT</th>
+          <th>Địa chỉ</th>
+        </tr>
+
+        <tr th:if="${results != null and #lists.isEmpty(results)}">
+          <td colspan="5" class="empty">Không tìm thấy sinh viên phù hợp.</td>
+        </tr>
+
+        <tr th:each="sv : ${results}">
+          <td th:text="${sv.soCMND}"></td>
+          <td th:text="${sv.hoTen}"></td>
+          <td th:text="${sv.email}"></td>
+          <td th:text="${sv.soDT}"></td>
+          <td th:text="${sv.diaChi}"></td>
+        </tr>
+      </table>
+
+      <a href="/" class="back">← Quay lại danh sách</a>
+    </div>
+  </body>
+</html>

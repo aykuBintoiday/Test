@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "TOT_NGHIEP")
 @IdClass(TotNghiepID.class)
-public class Totnghiep {
+public class TotNghiep {
 
     @Id
     @Column(name = "SoCMND")
@@ -32,10 +32,10 @@ public class Totnghiep {
     @Column(name = "LoaiTN")
     private String loaiTN;
 
-    public Totnghiep() {
+    public TotNghiep() {
     }
 
-    public Totnghiep(String soCMND, String maTruong, String maNganh, String heTN, String ngayTN, String loaiTN) {
+    public TotNghiep(String soCMND, String maTruong, String maNganh, String heTN, String ngayTN, String loaiTN) {
         this.soCMND = soCMND;
         this.maTruong = maTruong;
         this.maNganh = maNganh;
